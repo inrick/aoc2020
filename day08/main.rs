@@ -1,7 +1,7 @@
 use std::io::BufRead;
 use std::io::BufReader;
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 enum Instruction {
     Acc(i32),
     Jmp(i32),
@@ -11,7 +11,7 @@ enum Instruction {
 use Instruction::*;
 
 fn main() {
-    let instrs: Vec<Instruction> = BufReader::new(std::io::stdin())
+    let mut instrs: Vec<Instruction> = BufReader::new(std::io::stdin())
         .lines()
         .map(|l| parse_line(&l.unwrap()))
         .collect();
@@ -22,13 +22,11 @@ fn main() {
         let mut b = 0;
         let len = instrs.len();
         'search: for i in 0..len {
-            let mut instrs = instrs.clone();
-            match instrs[i] {
-                Acc(_) => continue,
-                Jmp(n) => instrs[i] = Nop(n),
-                Nop(n) => instrs[i] = Jmp(n),
-            };
+            if !flip(&mut instrs, i) {
+                continue;
+            }
             let (acc, pc) = exec(&instrs);
+            assert!(flip(&mut instrs, i));
             if pc == len as i32 {
                 b = acc;
                 break 'search;
@@ -39,6 +37,15 @@ fn main() {
 
     println!("a) {}", a);
     println!("b) {}", b);
+}
+
+fn flip(instrs: &mut Vec<Instruction>, i: usize) -> bool {
+    match instrs[i] {
+        Acc(_) => return false,
+        Jmp(n) => instrs[i] = Nop(n),
+        Nop(n) => instrs[i] = Jmp(n),
+    };
+    true
 }
 
 fn exec(instrs: &Vec<Instruction>) -> (i32, i32) {
