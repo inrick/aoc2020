@@ -13,7 +13,7 @@ fn main() {
             g = Vec::new();
             continue;
         }
-        g.push(l.as_bytes().to_owned());
+        g.push(l.into_bytes());
     }
     groups.push(g);
 

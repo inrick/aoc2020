@@ -4,7 +4,7 @@ use std::io::BufReader;
 fn main() {
     let chart: Vec<Vec<u8>> = BufReader::new(std::io::stdin())
         .lines()
-        .map(|l| l.unwrap().as_bytes().to_owned())
+        .map(|l| l.unwrap().into_bytes())
         .collect();
 
     let (rows, cols) = (chart.len(), chart[0].len());

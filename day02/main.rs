@@ -44,7 +44,7 @@ fn parse_line(s: &str) -> Policy {
     );
     let mut snd = splits.next().unwrap().bytes();
     let c = snd.next().unwrap();
-    let p = splits.next().unwrap().as_bytes().to_owned();
+    let p = splits.next().unwrap().into();
 
     assert_eq!(range.next(), None);
     assert_eq!(snd.next().unwrap(), b':');

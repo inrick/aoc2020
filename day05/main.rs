@@ -24,7 +24,7 @@ fn main() {
     let mut a = -1;
     let mut seats = Vec::new();
     for l in input.lines() {
-        let s = l.unwrap().as_bytes().to_owned();
+        let s = l.unwrap().into_bytes();
         assert_eq!(s.len(), 10);
         let row = bin(b'F', b'B', &s[..7]);
         let col = bin(b'L', b'R', &s[7..]);
