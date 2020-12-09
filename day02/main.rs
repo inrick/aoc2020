@@ -27,7 +27,7 @@ fn main() {
         .iter()
         .filter(|&p| {
             let (a, b) = (p.a as usize - 1, p.b as usize - 1);
-            (p.p[a] == p.c && p.p[b] != p.c) || (p.p[a] != p.c && p.p[b] == p.c)
+            (p.p[a] == p.c) != (p.p[b] == p.c)
         })
         .count();
 
